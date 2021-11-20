@@ -8,13 +8,22 @@
           v-for="e in employees"
           :key="e.email"
         >
-          <img :src="e.picture.large" class="mx-auto d-block" alt="picture of employee" />
+          <img
+            :src="`${serverAddress}/${e.picture.large}`"
+            class="mx-auto d-block"
+            alt="picture of employee"
+          />
           <div class="mx-auto d-block mt-2">
-            <h4>Name: {{ e.name.title }} {{ e.name.first }} {{ e.name.last }}</h4>
+            <h4>
+              Name: {{ e.name.title }} {{ e.name.first }} {{ e.name.last }}
+            </h4>
             <p class="card-text">Email: {{ e.email }}</p>
             <p class="card-text">Phone: {{ e.phone }}</p>
           </div>
-          <button @click="$emit('del', e)" class="btn btn-outline-danger mx-auto d-block mt-3">
+          <button
+            @click="$emit('del', e)"
+            class="btn btn-outline-danger mx-auto d-block mt-3"
+          >
             Delete
           </button>
         </div>
@@ -28,6 +37,9 @@ export default {
   props: {
     employees: {
       type: Array,
+    },
+    serverAddress: {
+      type: String,
     },
   },
 };

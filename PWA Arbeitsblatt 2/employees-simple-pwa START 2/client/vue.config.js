@@ -1,3 +1,5 @@
+const path = require('path');
+
 module.exports = {
   pwa: {
     manifestOptions: {
@@ -7,4 +9,5 @@ module.exports = {
       background_color: '#28c2ff',
     },
   },
+  outputDir: path.resolve(__dirname, '../server/public'),
 };

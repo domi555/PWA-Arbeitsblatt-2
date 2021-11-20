@@ -10,8 +10,13 @@
       mt-5
     "
   >
+    <h3>Willkommen bei der Service Worker Untersuchung!</h3>
     <ButtonGet @get="fetchData"></ButtonGet>
-    <CardView :employees="employees" @del="delEmployee"></CardView>
+    <CardView
+      :serverAddress="serverAddress"
+      :employees="employees"
+      @del="delEmployee"
+    ></CardView>
   </div>
 </template>
 
@@ -29,27 +34,35 @@ export default {
   data() {
     return {
       employees: [],
+      serverAddress: process.env.VUE_APP_SERVER,
     };
   },
-  async created() {
-    this.fetchData();
+  created() {
+    document.addEventListener('swUpdated', this.updateAvailable, {
+      once: true,
+    });
   },
   methods: {
-    fetchData() {
-      const result = axios({
-        url: 'https://palatin-employees.herokuapp.com/employees',
+    async fetchData() {
+      // console.log(this.serverAddress);
+      const result = await axios({
+        url: `${this.serverAddress}/employees`,
         method: 'GET',
       });
       this.employees = result.data;
+      // console.log(this.employees);
       console.log('fetchData called');
     },
-    delEmployee(employees) {
-      const result = axios({
-        url: `https://palatin-employees.herokuapp.com/employees/${employees.id}`,
+    async delEmployee(e) {
+      await axios({
+        url: `${this.serverAddress}/employees/${e.id}`,
         method: 'DELETE',
       });
-      this.employees = result.data;
+      this.fetchData();
       console.log('delEmployee called');
+    },
+    updateAvailable() {
+      alert('Update vorhanden, bitte App neu starten!');
     },
   },
 };
