@@ -51,7 +51,7 @@ export default {
       });
       this.employees = result.data;
       // console.log(this.employees);
-      console.log('fetchData called');
+      // console.log('fetchData called');
     },
     async delEmployee(e) {
       await axios({
